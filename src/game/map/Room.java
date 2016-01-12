@@ -35,11 +35,11 @@ public class Room implements DrawableObject{
 	public void Draw(Graphics g){
 		
 		if(this.type == RoomType.NORMAL)
-			g.setColor(Color.black);
+			g.setColor(new Color(32,32,32));
 		if(this.type == RoomType.START)
-			g.setColor(Color.blue);
+			g.setColor(new Color(51,153,255));
 		if(this.type == RoomType.TREASURE)
-			g.setColor(Color.yellow);
+			g.setColor(new Color(204,204,0));
 		g.fillRect(worldX, worldY, MapManager.ROOM_WIDTH, MapManager.ROOM_HEIGHT);
 		g.setColor(Color.darkGray);
 		g.setLineWidth(2);

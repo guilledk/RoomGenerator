@@ -49,10 +49,10 @@ public class MapManager implements DrawableObject{
 		int startX = (int)Math.ceil(this.sizeX / 2f) - 1;
 		int startY = (int)Math.ceil(this.sizeY / 2f) - 1;
 		
-		GenRoom(startX,startY,false,todoRooms,true);
+		GenRoom(startX,startY,todoRooms,true);
 		for(int i = 0; i < todoRooms.size(); i++){
 			
-			GenRoom((int)todoRooms.get(i).x,(int)todoRooms.get(i).y,false,todoRooms,false);
+			GenRoom((int)todoRooms.get(i).x,(int)todoRooms.get(i).y,todoRooms,false);
 			roomCount++;
 			
 		}
@@ -68,28 +68,48 @@ public class MapManager implements DrawableObject{
 		
 	}
 	
-	private void GenRoom(int x, int y, boolean deadEnd, List<Vector2f> todoRooms, boolean startingRoom){
+	private void GenRoom(int x, int y, List<Vector2f> todoRooms, boolean startingRoom){
 		
 		boolean top,right,bottom,left;
-		boolean end = deadEnd;
 		
 		if(x <= 2 || x >= this.sizeX - 2 || y <= 2 || y >= this.sizeY - 2){
 			
-			end = true;
+			top = false;
+			right = false;
+			bottom = false;
+			left = false;
+			if(roomGrid[x][y - 1] != null && roomGrid[x][y - 1].isBottom()){
+				
+				top = true;
+				
+			}
+			if(roomGrid[x + 1][y] != null && roomGrid[x + 1][y].isLeft()){
+				
+				right = true;
+				
+			}
+			if(roomGrid[x][y + 1] != null && roomGrid[x][y + 1].isTop()){
+				
+				bottom = true;
+				
+			}
+			if(roomGrid[x - 1][y] != null && roomGrid[x - 1][y].isRight()){
+				
+				left = true;
+				
+			}
 			
-		}
-		
-		if(!end){
+		} else {
 		
 			top = getRandomRange(1,100) >= doorChance ? false : true;
 			right = getRandomRange(1,100) >= doorChance ? false : true;
 			bottom = getRandomRange(1,100) >= doorChance ? false : true;
 			left = getRandomRange(1,100) >= doorChance ? false : true;
-			
+				
 			if(roomGrid[x][y - 1] != null && roomGrid[x][y - 1].isBottom()){
-				
+					
 				top = true;
-				
+					
 			}
 			if(roomGrid[x + 1][y] != null && roomGrid[x + 1][y].isLeft()){
 				
@@ -150,34 +170,7 @@ public class MapManager implements DrawableObject{
 				todoRooms.add(new Vector2f(x - 1,y));
 				
 			}
-			
-		} else {
-			
-			top = false;
-			right = false;
-			bottom = false;
-			left = false;
-			if(roomGrid[x][y - 1] != null && roomGrid[x][y - 1].isBottom()){
-				
-				top = true;
-				
-			}
-			if(roomGrid[x + 1][y] != null && roomGrid[x + 1][y].isLeft()){
-				
-				right = true;
-				
-			}
-			if(roomGrid[x][y + 1] != null && roomGrid[x][y + 1].isTop()){
-				
-				bottom = true;
-				
-			}
-			if(roomGrid[x - 1][y] != null && roomGrid[x - 1][y].isRight()){
-				
-				left = true;
-				
-			}
-			
+		
 		}
 		
 		RoomType type = getRandomRange(1,100) >= treasureChance ? RoomType.NORMAL : RoomType.TREASURE;

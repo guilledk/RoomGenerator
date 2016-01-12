@@ -20,7 +20,7 @@ public class Engine extends BasicGame{
 		
 	}
 	
-	public static final int WIDTH = 800, HEIGHT = 600;
+	public static final int WIDTH = 352, HEIGHT = 176;
 	public MapManager mm;
 	
 	public static void main(String[] args){
@@ -48,7 +48,7 @@ public class Engine extends BasicGame{
 		g.setBackground(Color.white);
 		mm.Draw(g);
 		g.setColor(Color.black);
-		g.drawString("[R] - To regenerate map", 200, 450);
+		//g.drawString("[R] - To regenerate map", 200, 450);
 		
 	}
 

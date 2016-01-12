@@ -55,7 +55,7 @@ public class Engine extends BasicGame{
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		
-		mm = new MapManager(25, 37, "seed test please ignore");
+		mm = new MapManager(11, 11, "seed test please ignore");
 		
 	}
 

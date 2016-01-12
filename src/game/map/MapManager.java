@@ -19,7 +19,7 @@ public class MapManager implements DrawableObject{
 	private int sizeX, sizeY;
 	private int doorChance = 20;
 	private int treasureChance = 5;
-	private int roomCount;
+	private int minRoomCount = 7;
 	
 	public MapManager(int sizeX, int sizeY, String seed){
 		
@@ -42,68 +42,34 @@ public class MapManager implements DrawableObject{
 	
 	public void GenerateMap(){
 		
-		roomCount = 0;
-		
+		int roomCount = 1;
 		roomGrid = new Room[sizeX][sizeY];
 		List<Vector2f> todoRooms = new ArrayList<Vector2f>();
 		
 		int startX = (int)Math.ceil(this.sizeX / 2f) - 1;
 		int startY = (int)Math.ceil(this.sizeY / 2f) - 1;
 		
-		roomGrid[startX][startY] = new Room(true,true,true,true,startX * (ROOM_WIDTH + 1), startY * (ROOM_HEIGHT + 1),RoomType.START);
-		
-		for(int door = 0; door < 4; door++){
-			
-			switch(door){
-			
-				case 0 : { //TOP
-					
-					GenRoom(startX,startY - 1,false,todoRooms);
-					break;
-					
-				}
-				case 1 : { //RIGHT
-					
-					GenRoom(startX + 1,startY,false,todoRooms);
-					break;
-					
-				}
-				case 2 : { //BOTTOM
-					
-					GenRoom(startX,startY + 1,false,todoRooms);
-					break;
-					
-				}
-				case 3 : { //LEFT
-					
-					GenRoom(startX - 1,startY,false,todoRooms);
-					break;
-					
-				}
-			
-			}
-			
-		}
-		
+		GenRoom(startX,startY,false,todoRooms,true);
 		for(int i = 0; i < todoRooms.size(); i++){
 			
-			GenRoom((int)todoRooms.get(i).x,(int)todoRooms.get(i).y,false,todoRooms);
+			GenRoom((int)todoRooms.get(i).x,(int)todoRooms.get(i).y,false,todoRooms,false);
+			roomCount++;
 			
 		}
 		
-		if(roomCount < 7){
+		if(roomCount < minRoomCount){
 			
-			ng.setSeed(ng.nextInt(100001 - 0) + 0);
+			ng.setSeed(ng.nextInt(100001 - 10) + 10);
 			GenerateMap();
+			return;
 	
 			
 		}
-			
 		
 	}
 	
-	private void GenRoom(int x, int y, boolean deadEnd, List<Vector2f> todoRooms){
-		roomCount++;
+	private void GenRoom(int x, int y, boolean deadEnd, List<Vector2f> todoRooms, boolean startingRoom){
+		
 		boolean top,right,bottom,left;
 		boolean end = deadEnd;
 		
@@ -215,6 +181,9 @@ public class MapManager implements DrawableObject{
 		}
 		
 		RoomType type = getRandomRange(1,100) >= treasureChance ? RoomType.NORMAL : RoomType.TREASURE;
+		
+		if(startingRoom)
+			type = RoomType.START;
 		
 		roomGrid[x][y] = new Room(top,right,bottom,left,x * (ROOM_WIDTH + 1), y * (ROOM_HEIGHT + 1),type);
 		

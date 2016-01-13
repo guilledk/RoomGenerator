@@ -19,7 +19,7 @@ public class MapManager implements DrawableObject{
 	private Room[][] roomGrid;
 	private int sizeX, sizeY;
 	private int doorChance = 20;
-	private int treasureChance = 5;
+	private int treasureChance = 2;
 	private int minRoomCount = 7;
 	public int mapsGenerated = 0;
 	public int mapsWithBigRooms = 0;
@@ -35,7 +35,7 @@ public class MapManager implements DrawableObject{
 		} else {
 			
 			//currentSeed  =	ng.nextInt(100001 - 0) + 0;
-			currentSeed = ng.nextInt(100001 - 0) + 0;
+			currentSeed = ng.nextInt(1000000001 - 0) + 0;
 			ng.setSeed(currentSeed);
 			
 		}

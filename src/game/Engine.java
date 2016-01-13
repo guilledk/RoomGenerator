@@ -62,10 +62,10 @@ public class Engine extends BasicGame{
 	@Override
 	public void update(GameContainer gc, int dt) throws SlickException {
 		
-		if(gc.getInput().isKeyPressed(Input.KEY_R)){
+		if(gc.getInput().isKeyPressed(Input.KEY_R) || gc.getInput().isKeyDown(Input.KEY_F3)){
 			
 			Random temp = new Random();
-			MapManager.currentSeed = temp.nextInt(100001 - 0) + 0;
+			MapManager.currentSeed = temp.nextInt(1000000001 - 0) + 0;
 			MapManager.ng.setSeed(MapManager.currentSeed);
 			mm.GenerateMap();
 			

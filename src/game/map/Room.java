@@ -9,13 +9,14 @@ public class Room implements DrawableObject{
 	
 	public enum RoomType {
 		
-		NORMAL,START,TREASURE
+		NORMAL,START,TREASURE,BIG_ROOM_0,BIG_ROOM_1,BIG_ROOM_2,BIG_ROOM_3
 		
 	}
 	
 	private boolean top,right,bottom,left;
 	public float worldX, worldY;
 	private RoomType type;
+	private boolean partOfBigRoom = false;
 	
 	public Room(boolean top,boolean right,boolean bottom,boolean left,float worldX, float worldY, RoomType type){
 		
@@ -40,29 +41,129 @@ public class Room implements DrawableObject{
 			g.setColor(new Color(51,153,255));
 		if(this.type == RoomType.TREASURE)
 			g.setColor(new Color(204,204,0));
-		g.fillRect(worldX, worldY, MapManager.ROOM_WIDTH, MapManager.ROOM_HEIGHT);
-		g.setColor(Color.darkGray);
-		g.setLineWidth(2);
-		g.drawRect(worldX, worldY, MapManager.ROOM_WIDTH, MapManager.ROOM_HEIGHT);
-		g.setColor(Color.lightGray);
-		if(top){
+		if(this.type == RoomType.BIG_ROOM_0 || this.type == RoomType.BIG_ROOM_1 || this.type == RoomType.BIG_ROOM_2 || this.type == RoomType.BIG_ROOM_3)
+			g.setColor(new Color(204,204,203));
+		
+		if(!partOfBigRoom){
+			g.fillRect(worldX, worldY, MapManager.ROOM_WIDTH, MapManager.ROOM_HEIGHT);
+			g.setColor(Color.darkGray);
+			g.setLineWidth(2);
+			g.drawRect(worldX, worldY, MapManager.ROOM_WIDTH, MapManager.ROOM_HEIGHT);
+			g.setColor(Color.lightGray);
+			if(top){
+				
+				g.fillRect((worldX + MapManager.ROOM_WIDTH / 2) - 2, worldY, 4, 4);
+				
+			}
+			if(right){
+				
+				g.fillRect((worldX + MapManager.ROOM_WIDTH) - 4, (worldY + MapManager.ROOM_HEIGHT / 2) - 2, 4, 4);
+				
+			}
+			if(bottom){
+				
+				g.fillRect((worldX + MapManager.ROOM_WIDTH / 2) - 2, worldY + MapManager.ROOM_HEIGHT - 4, 4, 4);
+				
+			}
+			if(left){
+				
+				g.fillRect(worldX, (worldY + MapManager.ROOM_HEIGHT / 2) - 2, 4, 4);
+				
+			}
+		} else {
 			
-			g.fillRect((worldX + MapManager.ROOM_WIDTH / 2) - 2, worldY, 4, 4);
+			switch(this.type){
 			
-		}
-		if(right){
+				case BIG_ROOM_0 : {
+					
+					g.fillRect(worldX, worldY, MapManager.ROOM_WIDTH + 1, MapManager.ROOM_HEIGHT + 1);
+					g.setColor(Color.darkGray);
+					g.setLineWidth(2);
+					g.drawLine(worldX, worldY, worldX + MapManager.ROOM_WIDTH, worldY);
+					g.drawLine(worldX, worldY, worldX, worldY + MapManager.ROOM_HEIGHT);
+					g.setColor(Color.lightGray);
+					if(left){
+						
+						g.fillRect(worldX, (worldY + MapManager.ROOM_HEIGHT / 2) - 2, 4, 4);
+						
+					}
+					if(top){
+						
+						g.fillRect((worldX + MapManager.ROOM_WIDTH / 2) - 2, worldY, 4, 4);
+						
+					}
+					
+					break;
+					
+				}
+				case BIG_ROOM_1 : {
+					
+					g.fillRect(worldX, worldY, MapManager.ROOM_WIDTH + 1, MapManager.ROOM_HEIGHT + 1);
+					g.setColor(Color.darkGray);
+					g.setLineWidth(2);
+					g.drawLine(worldX, worldY, worldX + MapManager.ROOM_WIDTH, worldY);
+					g.drawLine(worldX + MapManager.ROOM_WIDTH, worldY, worldX + MapManager.ROOM_WIDTH, worldY + MapManager.ROOM_HEIGHT);
+					g.setColor(Color.lightGray);
+					if(right){
+						
+						g.fillRect((worldX + MapManager.ROOM_WIDTH) - 4, (worldY + MapManager.ROOM_HEIGHT / 2) - 2, 4, 4);
+						
+					}
+					if(top){
+						
+						g.fillRect((worldX + MapManager.ROOM_WIDTH / 2) - 2, worldY, 4, 4);
+						
+					}
+					
+					break;
+					
+				}
+				case BIG_ROOM_2 : {
+					
+					g.fillRect(worldX, worldY, MapManager.ROOM_WIDTH + 1, MapManager.ROOM_HEIGHT + 1);
+					g.setColor(Color.darkGray);
+					g.setLineWidth(2);
+					g.drawLine(worldX, worldY + MapManager.ROOM_HEIGHT, worldX + MapManager.ROOM_WIDTH, worldY + MapManager.ROOM_HEIGHT);
+					g.drawLine(worldX + MapManager.ROOM_WIDTH, worldY + MapManager.ROOM_HEIGHT, worldX + MapManager.ROOM_WIDTH, worldY);
+					g.setColor(Color.lightGray);
+					if(right){
+						
+						g.fillRect((worldX + MapManager.ROOM_WIDTH) - 4, (worldY + MapManager.ROOM_HEIGHT / 2) - 2, 4, 4);
+						
+					}
+					if(bottom){
+						
+						g.fillRect((worldX + MapManager.ROOM_WIDTH / 2) - 2, worldY + MapManager.ROOM_HEIGHT - 4, 4, 4);
+						
+					}
+					
+					break;
+					
+				}
+				case BIG_ROOM_3 : {
+					
+					g.fillRect(worldX, worldY, MapManager.ROOM_WIDTH + 1, MapManager.ROOM_HEIGHT + 1);
+					g.setColor(Color.darkGray);
+					g.setLineWidth(2);
+					g.drawLine(worldX, worldY, worldX, worldY + MapManager.ROOM_HEIGHT);
+					g.drawLine(worldX, worldY + MapManager.ROOM_HEIGHT, worldX+ MapManager.ROOM_WIDTH, worldY + MapManager.ROOM_HEIGHT);
+					g.setColor(Color.lightGray);
+					if(left){
+						
+						g.fillRect(worldX, (worldY + MapManager.ROOM_HEIGHT / 2) - 2, 4, 4);
+						
+					}
+					if(bottom){
+						
+						g.fillRect((worldX + MapManager.ROOM_WIDTH / 2) - 2, worldY + MapManager.ROOM_HEIGHT - 4, 4, 4);
+						
+					}
+					
+					break;
+					
+				}
 			
-			g.fillRect((worldX + MapManager.ROOM_WIDTH) - 4, (worldY + MapManager.ROOM_HEIGHT / 2) - 2, 4, 4);
-			
-		}
-		if(bottom){
-			
-			g.fillRect((worldX + MapManager.ROOM_WIDTH / 2) - 2, worldY + MapManager.ROOM_HEIGHT - 4, 4, 4);
-			
-		}
-		if(left){
-			
-			g.fillRect(worldX, (worldY + MapManager.ROOM_HEIGHT / 2) - 2, 4, 4);
+			}
 			
 		}
 		
@@ -100,6 +201,20 @@ public class Room implements DrawableObject{
 		this.left = left;
 	}
 
-	
+	public RoomType getType() {
+		return type;
+	}
+
+	public void setType(RoomType type) {
+		this.type = type;
+	}
+
+	public boolean isPartOfBigRoom() {
+		return partOfBigRoom;
+	}
+
+	public void setPartOfBigRoom(boolean partOfBigRoom) {
+		this.partOfBigRoom = partOfBigRoom;
+	}
 	
 }

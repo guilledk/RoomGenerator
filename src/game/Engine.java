@@ -48,14 +48,14 @@ public class Engine extends BasicGame{
 		g.setBackground(Color.white);
 		mm.Draw(g);
 		g.setColor(Color.black);
-		//g.drawString("[R] - To regenerate map", 200, 450);
+		//rg.drawString("[R] - To regenerate map", 200, 450);
 		
 	}
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		
-		mm = new MapManager(11, 11, "seed test please ignore");
+		mm = new MapManager(11, 11, "test seed please ignore");
 		
 	}
 
@@ -65,7 +65,8 @@ public class Engine extends BasicGame{
 		if(gc.getInput().isKeyPressed(Input.KEY_R)){
 			
 			Random temp = new Random();
-			MapManager.ng.setSeed(temp.nextInt(100001 - 0) + 0);
+			MapManager.currentSeed = temp.nextInt(100001 - 0) + 0;
+			MapManager.ng.setSeed(MapManager.currentSeed);
 			mm.GenerateMap();
 			
 		}

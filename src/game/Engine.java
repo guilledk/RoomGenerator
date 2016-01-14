@@ -20,14 +20,14 @@ public class Engine extends BasicGame{
 		
 	}
 	
-	public static final int WIDTH = 352, HEIGHT = 176;
+	public static final int WIDTH = 640, HEIGHT = 320;
 	public MapManager mm;
 	
 	public static void main(String[] args){
 		
 		try
         {
-            AppGameContainer app = new AppGameContainer(new Engine("Room gen test v0.1"));
+            AppGameContainer app = new AppGameContainer(new Engine("Room gen test v0.2"));
             app.setDisplayMode(WIDTH, HEIGHT, false);
             app.start();
         }
@@ -55,7 +55,7 @@ public class Engine extends BasicGame{
 	@Override
 	public void init(GameContainer gc) throws SlickException {
 		
-		mm = new MapManager(11, 11, "test seed please ignore");
+		mm = new MapManager(20, 20);
 		
 	}
 

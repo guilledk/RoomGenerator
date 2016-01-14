@@ -9,36 +9,48 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Vector2f;
 
 import game.Engine.DrawableObject;
-import game.map.Room.RoomType;
 
 public class MapManager implements DrawableObject{
 	
-	public static final int ROOM_WIDTH = 32, ROOM_HEIGHT = 16;
+	public static int ROOM_WIDTH = 32, ROOM_HEIGHT = 16;
 	
 	public static Random ng = new Random();
 	private Room[][] roomGrid;
 	private int sizeX, sizeY;
 	private int doorChance = 20;
-	private int treasureChance = 2;
+	private int treasureChance = 3;
 	private int minRoomCount = 7;
 	public int mapsGenerated = 0;
 	public int mapsWithBigRooms = 0;
 	public static long currentSeed;
+	public int roomCount;
 	
 	public MapManager(int sizeX, int sizeY, String seed){
 		
-		if(seed != null){
-			
-			currentSeed = seed.hashCode();
-			ng.setSeed(seed.hashCode());
-			
-		} else {
-			
-			//currentSeed  =	ng.nextInt(100001 - 0) + 0;
-			currentSeed = ng.nextInt(1000000001 - 0) + 0;
-			ng.setSeed(currentSeed);
-			
-		}
+		currentSeed = seed.hashCode();
+		ng.setSeed(seed.hashCode());
+		
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+		
+		GenerateMap();
+		
+	}
+	public MapManager(int sizeX, int sizeY, int seed){
+		
+		currentSeed = seed;
+		ng.setSeed(seed);
+		
+		this.sizeX = sizeX;
+		this.sizeY = sizeY;
+		
+		GenerateMap();
+		
+	}
+	public MapManager(int sizeX, int sizeY){
+		
+		currentSeed = ng.nextInt(1000000001 - 0) + 0;;
+		ng.setSeed(currentSeed);
 		
 		this.sizeX = sizeX;
 		this.sizeY = sizeY;
@@ -48,9 +60,8 @@ public class MapManager implements DrawableObject{
 	}
 	public void GenerateMap(){
 		
-		
 		while(true){
-			int roomCount = 1;
+			roomCount = 1;
 			boolean bigRoomGenerated = false;
 			roomGrid = new Room[sizeX][sizeY];
 			List<Vector2f> todoRooms = new ArrayList<Vector2f>();
@@ -71,7 +82,7 @@ public class MapManager implements DrawableObject{
 			}
 			bigRoomGenerated = GenerateBigRooms();
 			DeleteUnconectedRooms();
-			if(roomCount >= minRoomCount + 2){
+			if(roomCount >= minRoomCount){
 				mapsGenerated++;
 				if(bigRoomGenerated)
 					mapsWithBigRooms++;
@@ -250,6 +261,12 @@ public class MapManager implements DrawableObject{
 			}
 			
 		}
+		
+	}
+	
+	public Room GetRoom(int x, int y){
+		
+		return roomGrid[x][y];
 		
 	}
 	
